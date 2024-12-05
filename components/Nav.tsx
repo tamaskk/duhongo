@@ -8,7 +8,7 @@ const Nav = () => {
 
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-row w-screen h-auto pt-6 pb-2 relative items-center justify-center gap-5">
+    <div className="flex flex-row w-screen bg-black h-auto pt-6 pb-2 relative items-center justify-center gap-5">
       <MenuIcon
         className="absolute flex sm:hidden sm:invisible top-6 right-4 z-[9999999]"
         onClick={() => setOpen(!open)}
