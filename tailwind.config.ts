@@ -21,4 +21,9 @@ export default {
     },
   },
   plugins: [],
+  variants: {
+    extend: {
+      display: ["group-open"],
+    },
+  },
 } satisfies Config;

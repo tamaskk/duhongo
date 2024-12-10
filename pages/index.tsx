@@ -1,7 +1,13 @@
 import Nav from "@/components/Nav";
 import React from "react";
 import ImageGallery from "react-image-gallery";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
+import Table from "@/components/Table";
+import Carousel from "@/components/carousel";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
+import Contact from "@/components/Contact";
+import Reviews from "@/components/Reviews";
 
 const index = () => {
   const images = [
@@ -23,12 +29,9 @@ const index = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto overflow-x-hidden">
+    <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto overflow-x-hidden bg-black">
       <Nav />
-      <div className="mx-auto mt-10 sm:mt-5 w-full p-0"
-      style={{
-      }}
-      >
+      <div className="mx-auto mt-10 sm:mt-5 w-full p-0" style={{}}>
         <ImageGallery
           showPlayButton={false}
           showFullscreenButton={false}
@@ -52,18 +55,20 @@ const index = () => {
           }}
         />
       </div>
-        <div className="flex flex-col items-center justify-center my-10">
-          <p
-            className="text-2xl sm:text-3xl font-bold text-center"
-          >
+      <div className="flex flex-col items-center justify-center my-20 mt-32">
+        <p className="text-2xl sm:text-3xl font-bold text-center">
           Az ország kedvenc rage room-a megérkezett Tatára!
-          </p>
-          <button
-            className="bg-black mt-5 text-white drop-shadow-md shadow-red-800 rounded-md p-2 shadow-md hover:shadow-red-900 hover:shadow-lg transition-all duration-300"
-          >
-            Foglalj időpontot most!
-          </button>
-        </div>
+        </p>
+        <button className="bg-black mt-5 text-white drop-shadow-md shadow-red-800 rounded-md p-2 shadow-md hover:shadow-red-900 hover:shadow-lg transition-all duration-300">
+          Foglalj időpontot most!
+        </button>
+      </div>
+      <Table />
+      <Reviews />
+      <Carousel />
+      <FAQ />
+      <Contact />
+      <Footer />
     </div>
   );
 };

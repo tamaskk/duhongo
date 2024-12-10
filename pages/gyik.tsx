@@ -1,8 +1,15 @@
+import FAQ from '@/components/FAQ'
+import Footer from '@/components/Footer'
+import Nav from '@/components/Nav'
 import React from 'react'
 
 const gyik = () => {
   return (
-    <div>gyik</div>
+    <div className='bg-black'>
+      <Nav />
+      <FAQ />
+      <Footer />
+    </div>
   )
 }
 
