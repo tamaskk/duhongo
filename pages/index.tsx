@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ImageGallery from "react-image-gallery";
 import MenuIcon from "@mui/icons-material/Menu";
 import Table from "@/components/Table";
@@ -8,28 +8,43 @@ import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import Contact from "@/components/Contact";
 import Reviews from "@/components/Reviews";
+import Action from "@/components/action";
 
 const index = () => {
-  const images = [
-    {
-      original: "https://picsum.photos/id/1018/1000/600/",
-      thumbnail: "https://picsum.photos/id/1018/250/150/",
-      text: "Autózúzás",
-    },
-    {
-      original: "https://picsum.photos/id/1015/1000/600/",
-      thumbnail: "https://picsum.photos/id/1015/250/150/",
-      text: "Gép törés",
-    },
-    {
-      original: "https://picsum.photos/id/1019/1000/600/",
-      thumbnail: "https://picsum.photos/id/1019/250/150/",
-      text: "Rage Room",
-    },
-  ];
+  const [images, setImages] = React.useState<any[]>([]);
+const firstRender = useRef(true);
+  useEffect(() => {
+
+    if (firstRender.current) {
+      firstRender.current = false;
+      getImages();
+      return;
+    }
+  }, []);
+
+  const getImages = async () => {
+    try {
+      const res = await fetch("/api/mainPage");
+      if (!res.ok) {
+        throw new Error("Failed to fetch Gallery");
+      }
+      const data = await res.json();
+      const images = data.sections.map((section: any) => {
+        return {
+          original: section.imageUrl,
+          text: section.text,
+        };
+      });
+      console.log(images);
+      setImages(images);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto overflow-x-hidden bg-black">
+      <Action />
       <Nav />
       <div className="mx-auto mt-10 sm:mt-5 w-full p-0" style={{}}>
         <ImageGallery
@@ -44,7 +59,7 @@ const index = () => {
                   src={e.original}
                   className="h-[700px] w-full sm:w-[90%] sm:mx-auto object-cover"
                 />
-                <div className="absolute w-full inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white p-4">
+                <div className="absolute w-full inset-0 flex items-center justify-center bg-black text-5xl font-bold bg-opacity-50 text-white p-4">
                   {
                     images.filter((image) => image.original === e.original)[0]
                       .text

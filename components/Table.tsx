@@ -2,7 +2,7 @@ import React from 'react'
 
 const Table = () => {
   return (
-    <div className="px-4 mx-2 pb-32 max-lg:w-screen bg-black max-lg:overflow-x-hidden max-lg:overflow-y-hidden sm:px-6 mb-20 lg:px-8">
+    <div className="px-4 mx-2 pb-32 max-lg:w-screen bg-black max-lg:overflow-x-hidden max-lg:overflow-y-hidden sm:px-6 lg:px-8">
       <div className="mt-8 flow-root max-lg:max-w-[1536px] bg-black max-lg:overflow-x-auto max-lg:overflow-y-hidden">
         <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8 bg-black">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 bg-black">

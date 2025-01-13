@@ -1,24 +1,36 @@
 import { Disclosure } from '@headlessui/react';
 import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline';
-
-const faqs = [
-  {
-    question: "What's the best thing about Switzerland?",
-    answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
-  },
-  // More questions...
-];
+import { useEffect, useRef, useState } from 'react';
 
 export default function FAQ() {
+  const firstRender = useRef(true);
+  const [faqs, setFaqs] = useState<{ answer: string, question: string[] }[]>([]);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      getFAQ();
+      return;
+    }
+  }, []);
+
+  const getFAQ = async () => {
+    const response = await fetch("/api/faq");
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch FAQs");
+    }
+    setFaqs(data.faq);
+  }
+
   return (
     <div className="w-screen">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
         <div className="mx-auto max-w-4xl divide-y divide-white/10">
           <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Gyakran ismételt kérdések</h2>
           <dl className="mt-10 space-y-6 divide-y divide-white/10">
-            {faqs.map((faq) => (
-              <Disclosure key={faq.question} as="div" className="pt-6">
+            {faqs.map((faq, index) => (
+              <Disclosure key={index} as="div" className="pt-6">
                 {({ open }) => (
                   <>
                     <dt>
