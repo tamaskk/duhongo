@@ -5,7 +5,7 @@ const navigation = {
       { name: 'Árak / Csomag', href: '/arak' },
       { name: 'Időpont foglalás', href: '/idopont' },
       { name: 'Értékelés', href: '/ertekelesek' },
-      { name: 'Galléria', href: '/galleria' },
+      { name: 'Galéria', href: '/galeria' },
       { name: 'GYIK', href: '/gyik' },
       { name: 'Kapcsolat', href: '/kapcsolat' },
     ],

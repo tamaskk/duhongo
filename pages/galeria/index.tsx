@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type GalleryItem = {
   _id: string;
@@ -71,22 +71,26 @@ const Galleria = () => {
         return "grid-cols-1";
     }
   };
-  
 
   // Make a password overlay
 
   const PasswordOverlay = () => {
-
     const [password, setPassword] = useState("");
 
     const checkPassword = async () => {
       try {
-        const res = await fetch(`/api/password?id=${showOverlayId}&password=${password}`);
+        const res = await fetch(
+          `/api/password?id=${showOverlayId}&password=${password}`
+        );
         if (!res.ok) {
           throw new Error("Failed to check password");
         }
         const data = await res.json();
         if (data.success) {
+          localStorage.setItem("gallery", JSON.stringify({
+            id: showOverlayId,
+            successPassword: true
+          }));
           router.push(`/galleria/${showOverlayId}`);
         } else {
           alert("Invalid password");
@@ -94,55 +98,52 @@ const Galleria = () => {
       } catch (err) {
         console.error("Error checking password:", err);
       }
-    }
+    };
 
     return (
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-white p-10 rounded-lg">
-          <h1 className="text-2xl text-black font-bold">Galléria jelszó</h1>
+          <h1 className="text-2xl text-black font-bold">Galéria jelszó</h1>
           <input
             type="password"
             value={password}
             onChange={(e) => {
               e.preventDefault();
-              setPassword(e.target.value)}}
+              setPassword(e.target.value);
+            }}
             className="border text-black border-gray-300 rounded-lg p-2 w-full mt-5"
             placeholder="Jelszó"
           />
-          <button 
-          onClick={checkPassword}
-          className="bg-black text-white rounded-lg p-2 w-full mt-5">
+          <button
+            onClick={checkPassword}
+            className="bg-black text-white rounded-lg p-2 w-full mt-5"
+          >
             Belépés
           </button>
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen overflow-y-auto overflow-x-hidden bg-black">
       <Nav />
-      {
-        showOverlayId && <PasswordOverlay
-        />
-      }
+      {showOverlayId && <PasswordOverlay />}
       <div className="flex flex-col items-center px-5">
-
-      <div className={`grid ${gridColumns()} gap-4 mx-auto mt-10`}>
-  {presentation.map((item: any, index: number) => (
-    <div
-      key={index}
-      className="flex flex-col items-start justify-between cursor-pointer"
-    >
-      <img
-        className="h-[90%] max-w-full object-cover rounded-lg"
-        src={item.imageUrl}
-        alt={`Gallery image ${index + 1}`}
-      />
-    </div>
-  ))}
-</div>
-
+        <div className={`grid ${gridColumns()} gap-4 mx-auto mt-10`}>
+          {presentation.map((item: any, index: number) => (
+            <div
+              key={index}
+              className="flex flex-col items-start justify-between cursor-pointer"
+            >
+              <img
+                className="h-[90%] max-w-full object-cover rounded-lg"
+                src={item.imageUrl}
+                alt={`Gallery image ${index + 1}`}
+              />
+            </div>
+          ))}
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-14 max-w-[1136px] py-20 px-[30px]">
           {galleries.map((chunk, index) => (
@@ -162,10 +163,11 @@ const Galleria = () => {
                   />
                   <p>{image.name}</p>
                   <p>{image.date}</p>
-                  <button 
-                  onClick={() => setShowOverlayId(image._id)}
-                  className="text-left text-xs mt-5">
-                    Kattints ide a galléria megnyitásához
+                  <button
+                    onClick={() => setShowOverlayId(image._id)}
+                    className="text-left text-xs mt-5"
+                  >
+                    Kattints ide a galéria megnyitásához
                   </button>
                 </div>
               ))}

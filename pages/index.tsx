@@ -11,10 +11,17 @@ import Reviews from "@/components/Reviews";
 import Action from "@/components/action";
 
 const index = () => {
-  const [images, setImages] = React.useState<any[]>([]);
-const firstRender = useRef(true);
-  useEffect(() => {
+  const [images, setImages] = React.useState<{
+    original: string;
+    text: string;
+  }[]>([]);
+  const [presentation, setPresentation] = React.useState<{
+    original: string;
+    thumbnail: string;
+  }[]>([]);
+  const firstRender = useRef(true);
 
+  useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
       getImages();
@@ -29,24 +36,32 @@ const firstRender = useRef(true);
         throw new Error("Failed to fetch Gallery");
       }
       const data = await res.json();
-      const images = data.sections.map((section: any) => {
-        return {
-          original: section.imageUrl,
-          text: section.text,
-        };
-      });
-      console.log(images);
+      const images = Array.isArray(data.sections)
+        ? data.sections.map((section: any) => ({
+            original: section.imageUrl,
+            text: section.text,
+          }))
+        : [];
+
+      const imagesPresentation = Array.isArray(data.presentation)
+        ? data.presentation.map((section: any) => ({
+            original: section.imageUrl,
+            thumbnail: section.imageUrl,
+          }))
+        : [];
+
       setImages(images);
+      setPresentation(imagesPresentation);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto overflow-x-hidden bg-black">
       <Action />
       <Nav />
-      <div className="mx-auto mt-10 sm:mt-5 w-full p-0" style={{}}>
+      <div className="mx-auto mt-10 sm:mt-5 w-full p-0">
         <ImageGallery
           showPlayButton={false}
           showFullscreenButton={false}
@@ -58,11 +73,11 @@ const firstRender = useRef(true);
                 <img
                   src={e.original}
                   className="h-[700px] w-full sm:w-[90%] sm:mx-auto object-cover"
+                  alt="Gallery"
                 />
                 <div className="absolute w-full inset-0 flex items-center justify-center bg-black text-5xl font-bold bg-opacity-50 text-white p-4">
                   {
-                    images.filter((image) => image.original === e.original)[0]
-                      .text
+                    images.find((image) => image.original === e.original)?.text
                   }
                 </div>
               </div>
@@ -80,7 +95,7 @@ const firstRender = useRef(true);
       </div>
       <Table />
       <Reviews />
-      <Carousel />
+      <Carousel presentation={presentation} />
       <FAQ />
       <Contact />
       <Footer />
@@ -89,3 +104,4 @@ const firstRender = useRef(true);
 };
 
 export default index;
+

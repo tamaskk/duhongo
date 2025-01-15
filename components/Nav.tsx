@@ -100,7 +100,7 @@ const Nav = () => {
             <div className="w-0 h-[2px] bg-white group-hover:w-full transition-all duration-1000"></div>
           </div>
           <div className="group flex flex-col items-center justify-center">
-            <button onClick={() => router.push("/galleria")}>Galléria</button>
+            <button onClick={() => router.push("/galeria")}>Galéria</button>
             <div className="w-0 h-[2px] bg-white group-hover:w-full transition-all duration-1000"></div>
           </div>
           <div className="group flex flex-col items-center justify-center">

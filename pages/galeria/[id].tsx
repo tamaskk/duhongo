@@ -1,4 +1,3 @@
-import { gallery } from "@/assets/galleria";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import { useRouter } from "next/router";
@@ -31,13 +30,6 @@ const IdPage = () => {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    if (router.query.id) {
-      const galleryItem = gallery.find((item: any) => item._id === router.query.id);
-      setFilteredGallery(galleryItem || null);
-    }
-  }, [router.query.id]);
-
-  useEffect(() => {
     document.body.style.overflow = showOverlay ? "hidden" : "auto";
     // Scroll to top when overlay is opened
     if (showOverlay) {
@@ -50,21 +42,33 @@ const IdPage = () => {
 
 
   useEffect(() => {
+
+  
     if (firstRender.current && router.query.id) {
+      const galleryItem = JSON.parse(localStorage.getItem("gallery") as string);
+      if (galleryItem.id !== router.query.id) {
+        router.push("/galleria");
+      }
       firstRender.current = false;
       getImages();
     }
   }, [router.query.id]);
+  
 
 
   const getImages = async () => {
     try {
       const res = await fetch(`/api/galleries?id=${router.query.id as string}`);
       if (!res.ok) {
-        throw new Error("Failed to fetch gallery data");
+        console.log("Failed to fetch galleries");
+        setFilteredGallery([]);
       }
       const data = await res.json();
-        setFilteredGallery(data.gallery[0]);
+      if (data.gallery?.length === 0) {
+        setFilteredGallery([]);
+      } else {
+        setFilteredGallery(data.gallery?.[0]);
+      }
     } catch (err) {
       console.error("Error fetching galleries:", err);
     }
