@@ -14,11 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (method === "GET") {
     try {
-      const sections = await db.collection("sections").find().toArray();
-      const presentation = await db.collection("presentation").find({}).toArray();
       const prices = await db.collection("prices").find().toArray();
 
-      return res.status(200).json({ sections, presentation, prices });
+      return res.status(200).json({ prices });
     } catch (error) {
       return res.status(500).json({ message: "Failed to fetch Sections" });
     } finally {

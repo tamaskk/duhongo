@@ -4,6 +4,31 @@ import Table from '@/components/Table'
 import React from 'react'
 
 const arak = () => {
+  const firstRender = React.useRef(true)
+  const [prices, setPrices] = React.useState<any>()
+
+  React.useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false
+      getPrices()
+      return
+    }
+  }, [])
+
+  const getPrices = async () => {
+    try {
+      const res = await fetch('/api/prices')
+      if (!res.ok) {
+        throw new Error('Failed to fetch prices')
+      }
+      const data = await res.json()
+      setPrices(data.prices)
+    } catch (err) {
+      console.error(err)
+    }
+  };
+
+
   return (
     <div className='bg-black'>
       <Nav />
@@ -11,7 +36,9 @@ const arak = () => {
         Áraink és szolgáltatásaink
       </h1>
       <div className=''>
-      <Table />
+      <Table 
+        prices={prices}
+      />
       <Footer />
       </div>
     </div>

@@ -45,10 +45,6 @@ const IdPage = () => {
 
   
     if (firstRender.current && router.query.id) {
-      const galleryItem = JSON.parse(localStorage.getItem("gallery") as string);
-      if (galleryItem.id !== router.query.id) {
-        router.push("/galleria");
-      }
       firstRender.current = false;
       getImages();
     }
@@ -76,7 +72,7 @@ const IdPage = () => {
 
   if (!filteredGallery) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
+      <div className="flex flex-col items-center justify-start min-h-screen bg-black text-white">
         <Nav />
         <p>Loading...</p>
         <Footer />

@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import MenuIcon from "@mui/icons-material/Menu";
 import Table from "@/components/Table";
@@ -20,6 +20,7 @@ const index = () => {
     thumbnail: string;
   }[]>([]);
   const firstRender = useRef(true);
+  const [prices, setPrices] = useState<any>()
 
   useEffect(() => {
     if (firstRender.current) {
@@ -52,6 +53,7 @@ const index = () => {
 
       setImages(images);
       setPresentation(imagesPresentation);
+      setPrices(data.prices)
     } catch (err) {
       console.error(err);
     }
@@ -93,7 +95,9 @@ const index = () => {
           Foglalj időpontot most!
         </button>
       </div>
-      <Table />
+      <Table 
+        prices={prices}
+      />
       <Reviews />
       <Carousel presentation={presentation} />
       <FAQ />

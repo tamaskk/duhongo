@@ -111,6 +111,10 @@ const Nav = () => {
             <button onClick={() => router.push("/kapcsolat")}>Kapcsolat</button>
             <div className="w-0 h-[2px] bg-white group-hover:w-full transition-all duration-1000"></div>
           </div>
+          <div className="group flex flex-col items-center justify-center">
+            <button onClick={() => router.push("/rolunk")}>Rólunk</button>
+            <div className="w-0 h-[2px] bg-white group-hover:w-full transition-all duration-1000"></div>
+          </div>
         </div>
       </div>
     </div>
